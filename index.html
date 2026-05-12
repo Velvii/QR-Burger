@@ -13,7 +13,7 @@
             <h2 id="burgLimit">17</h2>
             <div class="burger">
             </div>
-            <input type="text" placeholder="Burger Name" id="burgerName">
+            <input type="text" maxlength="40" placeholder="Burger Name" id="burgerName">
             <div class="createToolbar">
                 <div>
                     <button id="topBunButton">Top Bun</button>
@@ -42,8 +42,13 @@
             </div>
         </div>
         <div class="scan">
-
+            <div class="sharedBurgerPreview">
+                <h2>Shared Burger</h2>
+                <p id="sharedBurgerStatus">Scan a burger QR code to preview it.</p>
+                <div class="sharedBurger" id="sharedBurger"></div>
+            </div>
+            <div id="reader" width="700px"></div>
         </div>
+        <script src="./javascript/main.js" type="module"></script>
     </body>
-    <script src="./javascript/main.js"></script>
 </html>

@@ -1,3 +1,5 @@
+import {Html5QrcodeScanner} from "https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/+esm";
+
 let scene = "create"; // create or scan
 const createBut = document.getElementById("createBut");
 const scanBut = document.getElementById("scanBut");
@@ -6,7 +8,25 @@ let burgLimit = 0
 const burgMax = 12
 let length = 2
 let burger = []
+let sharedBurger = []
 burgLimitCounter.textContent = burgLimit+"/"+burgMax
+const createDiv = document.getElementsByClassName("create")[0];
+const scanDiv = document.getElementsByClassName("scan")[0];
+const sharedBurgerDiv = document.getElementById("sharedBurger");
+const sharedBurgerStatus = document.getElementById("sharedBurgerStatus");
+const ingredientFromCode = {
+    A: "top-bun",
+    B: "bottom-bun",
+    C: "bacon",
+    D: "cheese",
+    E: "ketchup",
+    F: "lettuce",
+    G: "mayo",
+    H: "mustard",
+    I: "pickles",
+    J: "tomatoes",
+    K: "patty"
+};
 // ingredients
 // Top-Bun:A
 //Bottom-Bun: B
@@ -19,7 +39,21 @@ burgLimitCounter.textContent = burgLimit+"/"+burgMax
 //Pickles: I
 //Tomatoes: J
 //Patty: K
-
+if (scene == "create"){
+    createBut.classList.add("selected");
+    scanBut.classList.remove("selected");
+    createDiv.style.opacity = "1"
+    createDiv.style.pointerEvents = "all"
+    scanDiv.style.opacity = "0"
+    scanDiv.style.pointerEvents = "none"
+}else if (scene == "scan"){
+    scanBut.classList.add("selected");
+    createBut.classList.remove("selected");
+    createDiv.style.opacity = "0"
+    createDiv.style.pointerEvents = "none"
+    scanDiv.style.opacity = "1"
+    scanDiv.style.pointerEvents = "all"
+}
 
 function generateQRCode(burger){
     let burgCode = ""
@@ -61,9 +95,9 @@ function generateQRCode(burger){
             burgCode += "K"
         }
     });
-    const burgerName = document.getElementById("burgerName").value
-    burgCode += "/"
-    return burgCode
+    const burgerNameInput = document.getElementById("burgerName").value.trim()
+    const burgerName = burgerNameInput.length > 0 ? burgerNameInput : "Untitled Burger"
+    return burgCode + "/" + encodeURIComponent(burgerName)
 }
 
 
@@ -72,8 +106,6 @@ function getRandomIntInclusive(min, max) {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-const createDiv = document.getElementsByClassName("create")[0];
-const scanDiv = document.getElementsByClassName("scan")[0];
 
 createBut.onclick = function(){
     scene = "create";
@@ -268,3 +300,45 @@ document.getElementById("shareQRCodePopupCloseButton").onclick = function(){
     shareQRCodePopup.style.opacity = "0"
     shareQRCodePopup.style.pointerEvents = "none"
 }
+
+function onScanSuccess(decodedText, decodedResult) {
+    const scannedParts = decodedText.split("/");
+    const scannedCode = (scannedParts[0] || "").trim().toUpperCase();
+    const scannedBurgerName = decodeURIComponent((scannedParts[1] || "Untitled Burger").trim() || "Untitled Burger");
+    const scannedIngredients = [];
+
+    for (const char of scannedCode){
+        if (ingredientFromCode[char]){
+            scannedIngredients.push(ingredientFromCode[char]);
+        }
+    }
+
+    sharedBurger = scannedIngredients;
+    sharedBurgerDiv.innerHTML = "";
+
+    if (sharedBurger.length === 0){
+        sharedBurgerStatus.textContent = "Scan did not match a burger code.";
+        return;
+    }
+
+    sharedBurger.forEach((ingredient) => {
+        const ingredientImg = document.createElement("img");
+        ingredientImg.src = "./assets/ingredients/" + ingredient + ".png";
+        ingredientImg.classList.add(ingredient);
+        sharedBurgerDiv.appendChild(ingredientImg);
+    });
+
+    sharedBurgerStatus.textContent = scannedBurgerName;
+}
+
+function onScanFailure(error) {
+  // handle scan failure, usually better to ignore and keep scanning.
+  // for example:
+  console.warn(`Code scan error = ${error}`);
+}
+
+let html5QrcodeScanner = new Html5QrcodeScanner(
+  "reader",
+  { fps: 10, qrbox: {width: 250, height: 250} },
+  /* verbose= */ false);
+html5QrcodeScanner.render(onScanSuccess, onScanFailure);
