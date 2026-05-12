@@ -7,6 +7,64 @@ const burgMax = 12
 let length = 2
 let burger = []
 burgLimitCounter.textContent = burgLimit+"/"+burgMax
+// ingredients
+// Top-Bun:A
+//Bottom-Bun: B
+//Bacon: C
+//Cheese: D
+//Ketchup: E
+//Lettuce: F
+//Mayo: G
+//Mustard: H
+//Pickles: I
+//Tomatoes: J
+//Patty: K
+
+
+function generateQRCode(burger){
+    let burgCode = ""
+    burger.forEach(element => {
+        if (element == "top-bun"){
+            burgCode += "A"
+        }
+        else if (element == "bottom-bun"){
+            burgCode += "B"
+        }
+        else if (element == "bottom-bun"){
+            burgCode += "C"
+        }
+        else if (element == "bacon"){
+            burgCode += "C"
+        }
+        else if (element == "cheese"){
+            burgCode += "D"
+        }
+        else if (element == "ketchup"){
+            burgCode += "E"
+        }
+        else if (element == "lettuce"){
+            burgCode += "F"
+        }
+        else if (element == "mayo"){
+            burgCode += "G"
+        }
+        else if (element == "mustard"){
+            burgCode += "H"
+        }
+        else if (element == "pickles"){
+            burgCode += "I"
+        }
+        else if (element == "tomatoes"){
+            burgCode += "J"
+        }
+        else if (element == "patty"){
+            burgCode += "K"
+        }
+    });
+    const burgerName = document.getElementById("burgerName").value
+    burgCode += "/"
+    return burgCode
+}
 
 
 function getRandomIntInclusive(min, max) {
@@ -14,18 +72,30 @@ function getRandomIntInclusive(min, max) {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+const createDiv = document.getElementsByClassName("create")[0];
+const scanDiv = document.getElementsByClassName("scan")[0];
 
 createBut.onclick = function(){
     scene = "create";
     createBut.classList.add("selected");
     scanBut.classList.remove("selected");
+    createDiv.style.opacity = "1"
+    createDiv.style.pointerEvents = "all"
+    scanDiv.style.opacity = "0"
+    scanDiv.style.pointerEvents = "none"
 }
+
 
 scanBut.onclick = function(){
     scene = "scan";
     scanBut.classList.add("selected");
     createBut.classList.remove("selected");
+    createDiv.style.opacity = "0"
+    createDiv.style.pointerEvents = "none"
+    scanDiv.style.opacity = "1"
+    scanDiv.style.pointerEvents = "all"
 }
+
 const burgerDiv = document.getElementsByClassName("burger")[0]
 
 const topBunButton = document.getElementById("topBunButton")
@@ -179,4 +249,22 @@ deleteButton.onclick = function(){
     burgLimit = 0
     burgLimitCounter.textContent = burgLimit+"/"+burgMax
     burgerDiv.innerHTML = ""
+}
+
+const shareQRCodePopup = document.getElementsByClassName("shareQRCodePopup")[0]
+const shareButton = document.getElementById("shareButton")
+shareButton.onclick = function(){
+    let burgCode = generateQRCode(burger).toString()
+    if (burgCode.length != 0){
+        shareQRCodePopup.getElementsByTagName("img")[0].src = "https://api.qrserver.com/v1/create-qr-code/?data="+burgCode+"&size=100x100"
+    }
+    else{
+
+    }
+    shareQRCodePopup.style.opacity = "1"
+    shareQRCodePopup.style.pointerEvents = "all"
+}
+document.getElementById("shareQRCodePopupCloseButton").onclick = function(){
+    shareQRCodePopup.style.opacity = "0"
+    shareQRCodePopup.style.pointerEvents = "none"
 }

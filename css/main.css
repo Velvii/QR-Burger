@@ -51,6 +51,7 @@ html{
     left: 50%;
     border-radius: 200px;
     transform: translate(-50%, 0);
+    z-index: 1;
 }
 
 .scene-switcher button{
@@ -119,7 +120,7 @@ html{
 }
 
 .burger img:hover{
-    scale: 1.05;
+    transform: scale(1.05);
 }
 
 .bottom-bun{
@@ -152,7 +153,8 @@ html{
 
 .createToolbar{
     width: 200px;
-    height: 225px;
+    display: flex;
+    height: 260px;
     background-color: #e37b59;
     position: fixed;
     right: 0;
@@ -161,6 +163,28 @@ html{
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
     padding: 10px;
+    align-items: center;
+    justify-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#shareButton{
+    width: 100%;
+    height: 100%;
+    font-family: main;
+    border-radius: 10px;
+    outline: .2vw #26cb70 solid;
+    border: none;
+    background-color: #77ffb4;
+    color: rgb(5, 164, 114);
+    font-size: 20px;
+}
+
+#deleteButton{
+    outline: .2vw #cb2626 solid;
+    background-color: #ff7777;
+    color: rgb(92, 0, 0);
 }
 
 .createToolbar div{
@@ -188,4 +212,71 @@ html{
     right:30px;
     font-family: display;
     font-size: 50px;
+}
+
+.shareQRCodePopup{
+    top: 0;
+    right: 0;
+    display: flex;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: #0000003f;
+    backdrop-filter: blur(.2vw);
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.shareQRCodePopup div{
+    width: 335px;
+    height: 400px;
+    background-color: #ffb277;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+}
+
+.shareQRCodePopup div img{
+    width: 300px;
+    height: auto;
+    background-color: #ffb277;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    border: 5px #c45831 solid;
+    border-radius: 5px;
+}
+
+.shareQRCodePopup div div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-items: space-around;
+    width: 100%;
+    gap: 10px;
+}
+
+.shareQRCodePopup div div button{
+    width: 44.5%;
+    height: 80%;
+    font-size: 30px;
+    font-family: main;
+    background-color: #ffcda7;
+    border: 5px #c45831 solid;
+    color: #c45831;
+    border-radius: 5px;
+}
+
+
+#shareQRCodePopupShareButton{
+    display: none;
+}
+
+.top-bun{
+    scale: 1.1;
 }

@@ -13,7 +13,7 @@
             <h2 id="burgLimit">17</h2>
             <div class="burger">
             </div>
-            <input type="text" placeholder="Burger Name">
+            <input type="text" placeholder="Burger Name" id="burgerName">
             <div class="createToolbar">
                 <div>
                     <button id="topBunButton">Top Bun</button>
@@ -29,7 +29,20 @@
                     <button id="ketchupButton">Ketchup</button>
                     <button id="deleteButton">Delete</button>
                 </div>
+                <button id="shareButton">Share</button>
             </div>
+        </div>
+        <div class="shareQRCodePopup">
+            <div>
+                <img src="./assets/NoBurgerWarning.png">
+                <div>
+                    <button id="shareQRCodePopupShareButton">Share</button>
+                    <button id="shareQRCodePopupCloseButton">Close</button>
+                </div>
+            </div>
+        </div>
+        <div class="scan">
+
         </div>
     </body>
     <script src="./javascript/main.js"></script>
