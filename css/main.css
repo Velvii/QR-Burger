@@ -388,3 +388,27 @@ html{
 .scan{
     z-index: 5;
 }
+
+
+#giveMeMoneyButton{
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    font-size: 50px;
+    color: #c45831;
+    font-family: display;
+    border: none;
+    background-color: #ffb277;
+    border-radius: 200px;
+    padding: 5px;
+    padding-right: 20px;
+    padding-left: 20px;
+    opacity: .5;
+    z-index: 9;
+    scale: .8;
+}
+
+#giveMeMoneyButton:hover{
+    opacity:1;
+    scale: .9;
+}
