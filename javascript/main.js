@@ -27,6 +27,19 @@ const ingredientFromCode = {
     J: "tomatoes",
     K: "patty"
 };
+const ingredientToCode = {
+    "top-bun": "A",
+    "bottom-bun": "B",
+    "bacon": "C",
+    "cheese": "D",
+    "ketchup": "E",
+    "lettuce": "F",
+    "mayo": "G",
+    "mustard": "H",
+    "pickles": "I",
+    "tomatoes": "J",
+    "patty": "K"
+};
 // ingredients
 // Top-Bun:A
 //Bottom-Bun: B
@@ -56,45 +69,17 @@ if (scene == "create"){
 }
 
 function generateQRCode(burger){
+    // Build QR code from visual stack order (top-to-bottom)
     let burgCode = ""
-    burger.forEach(element => {
-        if (element == "top-bun"){
-            burgCode += "A"
+    const imgs = Array.from(burgerDiv.querySelectorAll('img'))
+        .sort((a,b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top)
+    imgs.forEach(img => {
+        const cls = Object.keys(ingredientToCode).find(k => img.classList.contains(k))
+        if (cls){
+            burgCode += ingredientToCode[cls]
         }
-        else if (element == "bottom-bun"){
-            burgCode += "B"
-        }
-        else if (element == "bottom-bun"){
-            burgCode += "C"
-        }
-        else if (element == "bacon"){
-            burgCode += "C"
-        }
-        else if (element == "cheese"){
-            burgCode += "D"
-        }
-        else if (element == "ketchup"){
-            burgCode += "E"
-        }
-        else if (element == "lettuce"){
-            burgCode += "F"
-        }
-        else if (element == "mayo"){
-            burgCode += "G"
-        }
-        else if (element == "mustard"){
-            burgCode += "H"
-        }
-        else if (element == "pickles"){
-            burgCode += "I"
-        }
-        else if (element == "tomatoes"){
-            burgCode += "J"
-        }
-        else if (element == "patty"){
-            burgCode += "K"
-        }
-    });
+    })
+
     const burgerNameInput = document.getElementById("burgerName").value.trim()
     const burgerName = burgerNameInput.length > 0 ? burgerNameInput : "Untitled Burger"
     return burgCode + "/" + encodeURIComponent(burgerName)
@@ -321,7 +306,8 @@ function onScanSuccess(decodedText, decodedResult) {
         return;
     }
 
-    sharedBurger.forEach((ingredient) => {
+    // Render preview in visual top-to-bottom order
+    Array.from(sharedBurger).reverse().forEach((ingredient) => {
         const ingredientImg = document.createElement("img");
         ingredientImg.src = "./assets/ingredients/" + ingredient + ".png";
         ingredientImg.classList.add(ingredient);
