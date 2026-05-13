@@ -220,6 +220,54 @@ html{
         width: min(92vw, 400px);
         scale: 1;
     }
+
+    .scan{
+        gap: 30px;
+        padding: 20px 0;
+        justify-content: flex-start;
+        padding-top: 120px;
+    }
+}
+
+@media (max-width: 768px){
+    .scene-switcher{
+        top: 60px;
+        width: 160px;
+        height: 25px;
+    }
+
+    .scene-switcher button{
+        font-size: 12px;
+    }
+
+    .sharedBurgerPreview{
+        width: min(90vw, 100%);
+        min-height: auto;
+        padding: 15px;
+    }
+
+    .sharedBurgerPreview h2{
+        font-size: 24px;
+    }
+
+    .sharedBurger{
+        min-height: 200px;
+    }
+
+    #reader{
+        width: min(90vw, 100%) !important;
+        scale: 1 !important;
+        min-height: 300px;
+    }
+
+    #reader video{
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .scan{
+        padding: 100px 10px 20px;
+    }
 }
 
 #reader button{
